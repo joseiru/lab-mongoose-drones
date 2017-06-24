@@ -33,9 +33,12 @@ router.post('/drones', (req, res, next) => {
 
   const newDrone = new Drone(droneInfo);
   newDrone.save((err) => {
-    return next(err);
+    if (err) {
+      res.render('drones/new', { errors: newDrone.errors });
+    } else {
+      res.redirect('/drones');
+    }
   });
-  return res.redirect('/drones');
 });
 
 router.get('/drones/:id', (req, res, next) => {
